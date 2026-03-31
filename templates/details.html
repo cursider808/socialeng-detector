@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card report">
+    <div class="risk-header">
+        <div>
+            <h1>Анализ #{{ analysis_id }}</h1>
+            <p><strong>Отправитель:</strong> {{ report.sender }}</p>
+            <p><strong>Тема:</strong> {{ report.subject }}</p>
+            <p><strong>Риск:</strong> {{ report.risk_score }}/100 — {{ report.risk_level }}</p>
+            <p><strong>ML-вероятность:</strong> {{ report.ml_probability }}</p>
+        </div>
+        <a class="secondary-btn" href="/analysis/{{ analysis_id }}/pdf">Скачать PDF</a>
+    </div>
+    <p>{{ report.summary }}</p>
+
+    <h3>Исходный текст</h3>
+    <pre>{{ report.body }}</pre>
+
+    <h3>Сработавшие техники</h3>
+    <ul>
+        {% for hit in report.techniques %}
+        <li><strong>{{ hit.name }}</strong> ({{ hit.principle }}) — {{ hit.explanation }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Статистические признаки</h3>
+    <ul>
+        {% for item in report.statistical_findings %}
+        <li><strong>{{ item.name }}</strong>: {{ item.value }} — {{ item.explanation }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Рекомендации</h3>
+    <ul>
+        {% for rec in report.recommendations %}
+        <li>{{ rec }}</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

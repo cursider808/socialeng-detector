@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+    <h1>Анализ текста на признаки социальной инженерии</h1>
+    <p class="muted">Подходит для email, SMS и текстовых расшифровок звонков. Все данные обрабатываются локально.</p>
+    <form action="/analyze" method="post" class="form-grid">
+        <label>
+            Отправитель
+            <input type="text" name="sender" placeholder="security-alert@verify-now.help" required>
+        </label>
+        <label>
+            Тема
+            <input type="text" name="subject" placeholder="СРОЧНО: подтвердите аккаунт" required>
+        </label>
+        <label class="full">
+            Текст сообщения
+            <textarea name="body" rows="8" placeholder="Введите текст письма или сообщения" required></textarea>
+        </label>
+        <button type="submit">Проверить сообщение</button>
+    </form>
+</section>
+
+{% if report %}
+<section class="card report">
+    <div class="risk-header">
+        <div>
+            <h2>Результат анализа</h2>
+            <p><strong>Риск:</strong> {{ report.risk_score }}/100 — {{ report.risk_level }}</p>
+            <p><strong>ML-вероятность:</strong> {{ report.ml_probability }}</p>
+        </div>
+        {% if analysis_id %}
+        <a class="secondary-btn" href="/analysis/{{ analysis_id }}/pdf">Скачать PDF</a>
+        {% endif %}
+    </div>
+    <p>{{ report.summary }}</p>
+
+    <h3>Сработавшие техники</h3>
+    {% if report.techniques %}
+    <ul>
+        {% for hit in report.techniques %}
+        <li>
+            <strong>{{ hit.name }}</strong> ({{ hit.principle }}) — {{ hit.explanation }}<br>
+            <span class="muted">Совпадения: {{ hit.matches|join(', ') }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Техники не обнаружены.</p>
+    {% endif %}
+
+    <h3>Статистические признаки</h3>
+    {% if report.statistical_findings %}
+    <ul>
+        {% for item in report.statistical_findings %}
+        <li><strong>{{ item.name }}</strong>: {{ item.value }} — {{ item.explanation }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Подозрительные статистические признаки не обнаружены.</p>
+    {% endif %}
+
+    <h3>Рекомендации</h3>
+    <ul>
+        {% for rec in report.recommendations %}
+        <li>{{ rec }}</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+{% endblock %}

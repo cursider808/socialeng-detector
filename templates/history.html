@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+    <h1>История анализов</h1>
+    {% if rows %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Дата</th>
+                <th>Отправитель</th>
+                <th>Тема</th>
+                <th>Риск</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row['id'] }}</td>
+                <td>{{ row['created_at'] }}</td>
+                <td>{{ row['sender'] }}</td>
+                <td>{{ row['subject'] }}</td>
+                <td>{{ row['risk_score'] }} / {{ row['risk_level'] }}</td>
+                <td><a href="/analysis/{{ row['id'] }}">Открыть</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>История пуста.</p>
+    {% endif %}
+</section>
+{% endblock %}
