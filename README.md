@@ -1,76 +1,76 @@
-# Лабораторная работа №11 — задание 1
+# 🛡️ SocialEng Detector
 
-Это готовый проект **SocialEng Detector** на Python по требованиям лабораторной работы №11: анализ сообщений на признаки социальной инженерии с консольным и веб-режимом, SQLite-историей, ML-моделью, PDF-экспортом и unit-тестами.
+[![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)]()
+[![FastAPI](https://img.shields.io/badge/FastAPI-Web_App-009688?logo=fastapi)]()
+[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite)]()
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn)]()
+[![Status](https://img.shields.io/badge/Status-Educational-success)]()
 
-## Что реализовано
+**SocialEng Detector** is a Python-based project for detecting signs of **social engineering** in text messages.  
+It supports both **CLI** and **web modes**, stores analysis history in **SQLite**, uses a simple **machine learning model**, exports reports to **PDF**, and includes **unit tests**.
 
-- ввод `sender`, `subject`, `body`
-- многоуровневый анализ:
-  - эвристики: urgency, fear, authority, greed, reciprocity, scarcity
-  - статистика: `!`, доля CAPS, ссылки, подозрительные домены
-  - ML-модель `LogisticRegression` на синтетическом датасете
-- синтетический датасет на **300 примеров**
-- подробный отчёт: риск 0–100, техники, объяснения, рекомендации
-- веб-интерфейс на **FastAPI**
-- сохранение истории анализов в **SQLite**
-- экспорт отчёта в **PDF**
-- unit-тесты
-- запуск через **Docker**
+---
 
-## Структура проекта
+## ✨ Features
 
-- `app.py` — веб-приложение и CLI
-- `detector.py` — логика анализа
-- `data_factory.py` — генерация синтетического датасета
-- `ml_model.py` — обучение и загрузка модели
-- `storage.py` — работа с SQLite
-- `templates/` — HTML-шаблоны
-- `static/` — стили
-- `tests/` — unit-тесты
-- `data/` — CSV, модель и база SQLite
+- Analyze message fields:
+  - `sender`
+  - `subject`
+  - `body`
 
-## Установка
+- Multi-layered analysis:
+  - **Heuristics**: detects patterns such as **urgency**, **fear**, **authority**, **greed**, **reciprocity**, and **scarcity**
+  - **Statistical signals**: exclamation marks, CAPS ratio, links, suspicious domains
+  - **Machine learning model**: `LogisticRegression` trained on a synthetic dataset
 
+- Synthetic dataset with **300 examples**
+- Detailed output report including:
+  - **risk score (0–100)**
+  - detected manipulation techniques
+  - explanations
+  - protection recommendations
+- **FastAPI** web interface
+- **SQLite** storage for analysis history
+- **PDF export**
+- **Unit tests**
+- **Docker** support
+
+---
+
+## 📁 Project Structure
+
+```text
+app.py           # Web application and CLI entry point
+detector.py      # Core detection logic
+data_factory.py  # Synthetic dataset generation
+ml_model.py      # Model training and loading
+storage.py       # SQLite database operations
+templates/       # HTML templates
+static/          # CSS and static assets
+tests/           # Unit tests
+data/            # CSV dataset, trained model, and SQLite database
+```
+
+⚙️ Installation
 ```bash
 pip install -r requirements.txt
 python data_factory.py
 python ml_model.py
 ```
-
-## Запуск веб-версии
-
-```bash
-python app.py --mode web --host 127.0.0.1 --port 8000
-```
-
-Открыть в браузере:
-
-```bash
+🌐 Run the Web Version
+```text
 http://127.0.0.1:8000
 ```
 
-## Запуск консольной версии
-
+💻 Run the CLI Version
 ```bash
 python app.py --mode cli \
   --sender "security-alert@verify-now.help" \
-  --subject "СРОЧНО: подтвердите аккаунт" \
-  --body "Немедленно перейдите по ссылке http://verify-account-now.xyz/login иначе доступ будет заблокирован!!!"
+  --subject "URGENT: Confirm your account" \
+  --body "Immediately follow the link http://verify-account-now.xyz/login or your access will be blocked!!!"
 ```
 
-## Тесты
+🔒 Security Notice
 
-```bash
-python -m unittest discover -s tests
-```
-
-## Docker
-
-```bash
-docker build -t socialeng-detector .
-docker run -p 8000:8000 socialeng-detector
-```
-
-## Примечание по безопасности
-
-Проект использует только **синтетические данные** и предназначен для локального запуска.
+This project uses synthetic data only and is intended for local educational use.
+It is designed to demonstrate detection and awareness techniques in a safe environment.
